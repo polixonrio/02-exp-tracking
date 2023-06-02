@@ -9,7 +9,7 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_squared_error
 
 HPO_EXPERIMENT_NAME = "random-forest-hyperopt-3"
-EXPERIMENT_NAME = "random-forest-best-models-11"
+EXPERIMENT_NAME = "random-forest-best-models-121"
 RF_PARAMS = ['max_depth', 'n_estimators', 'min_samples_split', 'min_samples_leaf', 'random_state', 'n_jobs']
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
@@ -74,12 +74,12 @@ def run_register_model(data_path: str, top_n: int):
         experiment_ids=experiment.experiment_id,
         run_view_type=ViewType.ACTIVE_ONLY,
         max_results=top_n,
-        order_by=["metrics.rmse ASC"]
+        order_by=["metrics.test_rmse ASC"]
     )[0]
     lowest_rmse_run_id = best_run.info.run_id
     print(lowest_rmse_run_id)
     model_path = f"runs:/{lowest_rmse_run_id}/model"  # Update with the correct model path
-    model_name = "best-model-11"  # Provide a name for the registered model
+    model_name = "best-model-121"  # Provide a name for the registered model
     mlflow.register_model(model_uri=model_path, name=model_name)
 
 
